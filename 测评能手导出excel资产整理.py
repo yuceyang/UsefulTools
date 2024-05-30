@@ -3,20 +3,37 @@ import re
 import pandas as pd
 import openpyxl
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
-
+from tkinter import Tk
+from tkinter.filedialog import askdirectory
 ##
 #   环境需要使用xlsxwriter模块
 #   pip install xlsxwriter
 #
 # #
 
-def perform_replace_task():
+def start():
+    # 创建一个Tkinter根窗口，并隐藏它
+    root = Tk()
+    root.withdraw()
+    # 使用文件资源管理器获取文件夹路径
+    folder_path = askdirectory(title="请选择要处理的文件夹")
+    # 检查是否选择了文件夹路径
+    if folder_path:
+        print(f"你选择的文件夹路径是: {folder_path}")
+
+        # 检查merged_excel.xlsx文件是否已经存在
+        merged_file_path = os.path.join(folder_path, "merged_excel.xlsx")
+        if os.path.exists(merged_file_path):
+            print(f"文件【merged_excel.xlsx】已经存在，跳过文件处理步骤，请删除【merged_excel.xlsx】文件后重试!!!。")
+        else:
+            perform_replace_task(folder_path)
+    else:
+        print("你没有选择任何文件夹。")
+
+
+def perform_replace_task(folder_path):
     # 输入文件夹路径
-    folder_path = input("\n请输入要处理的文件夹路径: \n")
-    # 确保输入的路径存在
-    if not os.path.exists(folder_path):
-        print(f"路径 {folder_path} 不存在!")
-        return
+    #folder_path = input("\n请输入要处理的文件夹路径: \n")
 
     #删除多余文件
     removeFiles(folder_path+r"\02一安全区域边界一区域边界.xlsx")
@@ -102,6 +119,7 @@ def perform_replace_task():
             print("    "+file)
     print("------------------------------------------------------------------------------")
     print("------------------------------------------------------------------------------")
+
     #合并excel
     _excel_hb(folder_path)
     #操作excel，删除行、列、表格美化等
@@ -212,7 +230,7 @@ def _excel_operate(folder_path):
 
 # 主程序循环
 while True:
-    perform_replace_task()
+    start()
 
     # 提示用户选择下一步操作
     choice = input("\n按 1 重新进行下一次任务,按其他任意键输入则退出程序: ")
