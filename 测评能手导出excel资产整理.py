@@ -231,3 +231,10 @@ while True:
     if choice != "1":
         break
 print("程序已退出。")
+
+
+
+##
+# 打包exe执行，注意pip install依赖包
+# pyinstaller --onefile --hidden-import pandas --hidden-import openpyxl --hidden-import openpyxl.reader.excel --hidden-import openpyxl.styles --hidden-import openpyxl.cell --hidden-import tkinter --hidden-import tkinter.filedialog 测评能手导出excel资产整理.py
+# #
